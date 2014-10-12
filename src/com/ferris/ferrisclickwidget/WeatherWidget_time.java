@@ -40,14 +40,12 @@ public class WeatherWidget_time extends AppWidgetProvider {
 	
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager,
 			int[] appWidgetIds) {
-//		for (int i = 0; i < appWidgetIds.length; i++) {
-//			if (updateViews == null) {
-//				updateViews = lewaBuildUpdate(context, appWidgetIds[i], false,
-//						true, true);
-//			}
-//			appWidgetManager.updateAppWidget(appWidgetIds[i], updateViews);
-//			System.gc();
-//		}
+		for (int i = 0; i < appWidgetIds.length; i++) {
+			updateViews = lewaBuildUpdate(context, appWidgetIds[i], false,
+						true, true);
+			appWidgetManager.updateAppWidget(appWidgetIds[i], updateViews);
+			System.gc();
+		}
 		super.onUpdate(context, appWidgetManager, appWidgetIds);
 	}
 

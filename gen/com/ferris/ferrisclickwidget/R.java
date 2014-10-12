@@ -177,8 +177,8 @@ public final class R {
         public static final int v5_widget_time_hour2=0x7f0c0017;
         public static final int v5_widget_time_minute1=0x7f0c0019;
         public static final int v5_widget_time_minute2=0x7f0c001a;
-        public static final int v5_widget_week=0x7f0c001f;
-        public static final int v5_widget_week_ll=0x7f0c001e;
+        public static final int v5_widget_week=0x7f0c001e;
+        public static final int v5_widget_week_ll=0x7f0c001f;
         public static final int widget_time_divider=0x7f0c0006;
         public static final int widget_time_hour1=0x7f0c0004;
         public static final int widget_time_hour2=0x7f0c0005;

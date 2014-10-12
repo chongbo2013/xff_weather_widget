@@ -3,14 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" 
     android:paddingTop="5dip"
-
+	android:background="@android:color/transparent"
     >
 	<LinearLayout
 	    android:id="@+id/time_container" 
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:orientation="vertical"
-	    android:layout_marginLeft="5dp"
 	    android:gravity="left"
 	    android:layout_marginTop="@dimen/v5_widget_time_margin_top"
 	    >
@@ -27,7 +26,7 @@
 			        android:scaleType="center"
 			        android:text="1"
 			        android:textColor="@android:color/white"
-			          android:textSize="80sp"
+			          android:textSize="60sp"
 			        />
 			     <TextView 
 			        android:id="@+id/v5_widget_time_hour2"
@@ -36,7 +35,7 @@
 			        android:scaleType="center"
 			        android:text="0"
 			        android:textColor="@android:color/white"
-			        android:textSize="80sp"
+			        android:textSize="60sp"
 			        />
 			     <TextView 
 			        android:id="@+id/v5_widget_time_divider"
@@ -45,7 +44,7 @@
 			        android:scaleType="center"
 	 				android:text=":"
 	 				android:textColor="@android:color/white"
-			        android:textSize="80sp"
+			        android:textSize="60sp"
 			        />
 			     <TextView 
 			        android:id="@+id/v5_widget_time_minute1"
@@ -54,7 +53,7 @@
 			        android:scaleType="center"
 			        android:text="4"
 			        android:textColor="@android:color/white"
-			          android:textSize="80sp"
+			          android:textSize="60sp"
 			        />
 			     <TextView 
 			        android:id="@+id/v5_widget_time_minute2"
@@ -63,7 +62,7 @@
 			        android:scaleType="center"
 			        android:text="8"
 			        android:textColor="@android:color/white"
-			          android:textSize="80sp"
+			          android:textSize="60sp"
 			        />
 	    </LinearLayout>
 	    <LinearLayout
@@ -80,7 +79,8 @@
 		        android:layout_height="wrap_content"
 		        android:text="10:12"
 		        android:textColor="@android:color/white"
-			    android:textSize="30sp"
+			    android:textSize="15sp"
+			     android:layout_marginLeft="5dp"
 		        />
 		    <TextView 
 		        android:id="@+id/v5_widget_date_lunar"
@@ -90,8 +90,17 @@
 		        android:text="农历九月十九"
 		        android:textColor="@android:color/white"
 
-			          android:textSize="30sp"
+			      android:textSize="15sp"
 		        />
+		    <TextView 
+	        android:id="@+id/v5_widget_week"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="星期日"
+	        android:textColor="@android:color/white"
+			 android:textSize="15sp"
+			  android:layout_marginLeft="5dp"
+	        />
 	    </LinearLayout>
 	    
 	    <LinearLayout
@@ -103,14 +112,7 @@
 	        android:layout_marginLeft="3dp"
 	        android:gravity="left"
 	        >
-	     <TextView 
-	        android:id="@+id/v5_widget_week"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="星期日"
-	        android:textColor="@android:color/white"
-			android:textSize="30sp"
-	        />
+	     
 	     </LinearLayout>
 	</LinearLayout>
 </RelativeLayout>
