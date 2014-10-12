@@ -15,7 +15,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.FontMetrics;
-import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.text.format.DateFormat;
 import android.view.View;
@@ -24,25 +23,31 @@ import android.widget.RemoteViews;
 public class WeatherWidget_time extends AppWidgetProvider {
 
 	private static RemoteViews updateViews;
-	private static Bitmap hour1;
-	private static Bitmap hour2;
-	private static Bitmap minute1;
-	private static Bitmap minute2;
-	private static Bitmap solarBitmap;
-	private static Bitmap lunarBitmap;
-	private static Bitmap weekBitmap;
+	private static String hour1;
+	private static String hour2;
+	private static String minute1;
+	private static String minute2;
+	private static String solarBitmap;
+	private static String lunarBitmap;
+	private static String weekBitmap;
+	private static Intent launchIntent, startservice ;
+	private static PendingIntent weatherPendingIntent;
+	private static Date date ;
+	private static int[] appWidgetIds ;
+	private static ComponentName componentName ;
 
+	private static AppWidgetManager appWidgetManger ;
+	
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager,
 			int[] appWidgetIds) {
-		for (int i = 0; i < appWidgetIds.length; i++) {
-			if (updateViews != null) {
-				updateViews = null;
-			}
-			updateViews = lewaBuildUpdate(context, appWidgetIds[i], false,
-					true, true);
-			appWidgetManager.updateAppWidget(appWidgetIds[i], updateViews);
-			System.gc();
-		}
+//		for (int i = 0; i < appWidgetIds.length; i++) {
+//			if (updateViews == null) {
+//				updateViews = lewaBuildUpdate(context, appWidgetIds[i], false,
+//						true, true);
+//			}
+//			appWidgetManager.updateAppWidget(appWidgetIds[i], updateViews);
+//			System.gc();
+//		}
 		super.onUpdate(context, appWidgetManager, appWidgetIds);
 	}
 
@@ -78,10 +83,7 @@ public class WeatherWidget_time extends AppWidgetProvider {
 		super.onReceive(context, intent);
 	}
 
-	private static Intent launchIntent, startservice = null;
-	private static PendingIntent weatherPendingIntent;
-	private static Date date = null;
-	private static int[] appWidgetIds = null;
+	
 
 	private static synchronized RemoteViews lewaBuildUpdate(Context context,
 			int i, boolean isRefresh, boolean isTimeUpdate, boolean isDateUpdate) {
@@ -140,11 +142,11 @@ public class WeatherWidget_time extends AppWidgetProvider {
 		int i = date.getHours();
 		int j = 0;
 		int k = 0;
-		if (b24Hour) {
+		if (b24Hour) { //24Сʱ
 			j = i / 10;
 			k = i % 10;
 			remoteViews.setViewVisibility(R.id.lewa_widget_moment, View.GONE);
-		} else {
+		} else {  //12Сʱ
 			remoteViews
 					.setViewVisibility(R.id.lewa_widget_moment, View.VISIBLE);
 			if (i >= 0 && i < 12) {
@@ -168,15 +170,19 @@ public class WeatherWidget_time extends AppWidgetProvider {
 			}
 		}
 		if (hour1 == null || isTimeUpdate) {
-			WeatherControl.recyleBitmap(hour1);
-			hour1 = getHourAndMinuteBitmap(context, String.valueOf(j));
+//			WeatherControl.recyleBitmap(hour1);
+//			hour1 = getHourAndMinuteBitmap(context, String.valueOf(j));
+			hour1=null;
+			hour1=String.valueOf(j);
 		}
-		remoteViews.setImageViewBitmap(R.id.v5_widget_time_hour1, hour1);
+		remoteViews.setTextViewText(R.id.v5_widget_time_hour1, hour1);
 		if (hour2 == null || isTimeUpdate) {
-			WeatherControl.recyleBitmap(hour2);
-			hour2 = getHourAndMinuteBitmap(context, String.valueOf(k));
+//			WeatherControl.recyleBitmap(hour2);
+//			hour2 = getHourAndMinuteBitmap(context, String.valueOf(k));
+			hour2=null;
+			hour2=String.valueOf(k);
 		}
-		remoteViews.setImageViewBitmap(R.id.v5_widget_time_hour2, hour2);
+		remoteViews.setTextViewText(R.id.v5_widget_time_hour2, hour2);
 	}
 
 	private static boolean isStartWithone(Context context, Date date,
@@ -203,13 +209,7 @@ public class WeatherWidget_time extends AppWidgetProvider {
 		}
 	}
 
-	private static int getClockNumberResourceId(int resID) {
-		return R.drawable.num_0 + resID;
-	}
-
-	private static int getDateNumberResourceId(int resID) {
-		return R.drawable.num_0 + resID;
-	}
+	
 
 	private static void drawMinute(Context context, RemoteViews remoteViews,
 			Date date, boolean isTimeUpdate) {
@@ -217,34 +217,22 @@ public class WeatherWidget_time extends AppWidgetProvider {
 		int j = i / 10;
 		int k = i % 10;
 		if (minute1 == null || isTimeUpdate) {
-			WeatherControl.recyleBitmap(minute1);
-			minute1 = getHourAndMinuteBitmap(context, String.valueOf(j));
+//			WeatherControl.recyleBitmap(minute1);
+			minute1=null;
+			minute1=String.valueOf(j);
+//			minute1 = getHourAndMinuteBitmap(context, minute1);
 		}
-		remoteViews.setImageViewBitmap(R.id.v5_widget_time_minute1, minute1);
+		remoteViews.setTextViewText(R.id.v5_widget_time_minute1, minute1);
 		if (minute2 == null || isTimeUpdate) {
-			WeatherControl.recyleBitmap(minute2);
-			minute2 = getHourAndMinuteBitmap(context, String.valueOf(k));
+//			WeatherControl.recyleBitmap(minute2);
+//			minute2 = getHourAndMinuteBitmap(context, String.valueOf(k));
+			minute2=null;
+			minute2=String.valueOf(k);
 		}
-		remoteViews.setImageViewBitmap(R.id.v5_widget_time_minute2, minute2);
+		remoteViews.setTextViewText(R.id.v5_widget_time_minute2, minute2);
 	}
 
-	private static Bitmap getConditionFrom(String condition, Context context) {
-		final float scale = context.getApplicationContext().getResources()
-				.getDisplayMetrics().density;
-		Paint paint = new Paint();
-		paint.setTextSize(25 * scale);
-		paint.setColor(Color.parseColor("#3a3a3a"));
-		paint.setAntiAlias(true);
-		float tempratureRangeWidth = paint.measureText(condition);
-		int translateY = (int) (32 * scale + 0.5f);
-		Bitmap bitmap = Bitmap.createBitmap(
-				(int) (tempratureRangeWidth + 0.5f), (int) (40 * scale + 0.5f),
-				Config.ARGB_8888);
-		Canvas canvasTemp = new Canvas(bitmap);
-
-		canvasTemp.drawText(condition, 0, translateY, paint);
-		return bitmap;
-	}
+	
 
 	public static void updateAppWidget(Context context,
 			AppWidgetManager appWidgetManager, int appWidgetId,
@@ -281,9 +269,7 @@ public class WeatherWidget_time extends AppWidgetProvider {
 		return N > 0;
 	}
 
-	private static ComponentName componentName = null;;
-	private static RemoteViews updateView2;
-	private static AppWidgetManager appWidgetManger = null;
+
 
 	public synchronized void updateTimeAlarm(Context context) {
 
@@ -291,27 +277,24 @@ public class WeatherWidget_time extends AppWidgetProvider {
 			appWidgetManger = AppWidgetManager.getInstance(context);
 		}
 
-		if (componentName != null) {
-			componentName = null;
+		if (componentName == null) {
+			componentName = new ComponentName(context, context.getPackageName()
+					+ ".WeatherWidget_time");
 		}
-		componentName = new ComponentName(context, context.getPackageName()
-				+ ".WeatherWidget_time");
-		if (appWidgetIds != null) {
-			appWidgetIds = null;
-		}
-		appWidgetIds = appWidgetManger.getAppWidgetIds(componentName);
+		
+		
+			appWidgetIds = appWidgetManger.getAppWidgetIds(componentName);
+
+		
 
 		if (appWidgetIds.length <= 0) {
 			return;
 		}
 
 		for (int i = 0; i < appWidgetIds.length; i++) {
-			if (updateView2 != null) {
-				updateView2 = null;
-			}
-			updateView2 = lewaBuildUpdate(context, appWidgetIds[i], false,
-					true, true);
-			appWidgetManger.updateAppWidget(appWidgetIds[i], updateView2);
+			updateViews = lewaBuildUpdate(context, appWidgetIds[i], false,
+						true, true);
+			appWidgetManger.updateAppWidget(appWidgetIds[i], updateViews);
 
 			System.gc();
 		}
@@ -348,33 +331,7 @@ public class WeatherWidget_time extends AppWidgetProvider {
 		return bitmap;
 	}
 
-	private static Bitmap createTextBitmap(Context context, String text,
-			int size, int transy, boolean isSetShadow) {
-		final float scale = context.getApplicationContext().getResources()
-				.getDisplayMetrics().density;
-		Paint paint = new Paint();
-		Rect rect = new Rect();
-		paint.getTextBounds(text, 0, text.length(), rect);
-		paint.setTextSize(size);
-		paint.setColor(Color.WHITE);
-		Typeface face = Typeface.createFromAsset(context.getAssets(),
-				"NeoSans-Light.otf");
-		paint.setTypeface(face);
-		paint.setAntiAlias(true);
-
-		if (isSetShadow)
-			paint.setShadowLayer(5, 1, 2, Color.DKGRAY);
-		int translateY = (int) (transy * scale + 0.5f);
-
-		float tempratureRangeWidth = paint.measureText(text);
-		Bitmap bitmap = Bitmap.createBitmap(
-				(int) (tempratureRangeWidth + 0.5f), (int) (20 * scale + 0.5f),
-				Config.ARGB_8888);
-		Canvas canvasTemp = new Canvas(bitmap);
-		canvasTemp.drawText(text, 0, translateY, paint);
-		return bitmap;
-	}
-
+	
 	public static int getFontHeight(float fontSize) {
 		Paint paint = new Paint();
 		paint.setTextSize(fontSize);
@@ -394,14 +351,14 @@ public class WeatherWidget_time extends AppWidgetProvider {
 		int mounth = calendar.get(Calendar.MONTH) + 1;
 		int day = calendar.get(Calendar.DAY_OF_MONTH);
 		int dayofweek = calendar.get(Calendar.DAY_OF_WEEK);
-		int v5_widget_solar_text_size = context.getResources().getInteger(
-				R.integer.v5_widget_solar_text_size);
-		int v5_widget_lunar_text_size = context.getResources().getInteger(
-				R.integer.v5_widget_lunar_text_size);
-		int transy = context.getResources().getInteger(
-				R.integer.v5_widget_transy);
-		int solar_transy = context.getResources().getInteger(
-				R.integer.v5_widget_solar_transy);
+//		int v5_widget_solar_text_size = context.getResources().getInteger(
+//				R.integer.v5_widget_solar_text_size);
+//		int v5_widget_lunar_text_size = context.getResources().getInteger(
+//				R.integer.v5_widget_lunar_text_size);
+//		int transy = context.getResources().getInteger(
+//				R.integer.v5_widget_transy);
+//		int solar_transy = context.getResources().getInteger(
+//				R.integer.v5_widget_solar_transy);
 		String weekdayString = DataFormatControl
 				.dayOfWeekV5(context, dayofweek);
 		LunarItem item = new LunarItem(calendar);
@@ -414,28 +371,37 @@ public class WeatherWidget_time extends AppWidgetProvider {
 			dayString = "0" + day;
 		builder.append(mounth + "." + dayString);
 		if (solarBitmap == null || isDateUpdate) {
-			WeatherControl.recyleBitmap(solarBitmap);
-			solarBitmap = WeatherControl.createTextBitmap(context,
-					builder.toString(), v5_widget_solar_text_size,
-					solar_transy, true);
+//			WeatherControl.recyleBitmap(solarBitmap);
+//			solarBitmap = WeatherControl.createTextBitmap(context,
+//					builder.toString(), v5_widget_solar_text_size,
+//					solar_transy, true);
+			
+			solarBitmap=null;
+			solarBitmap= builder.toString();
 		}
-		updateViews.setImageViewBitmap(R.id.v5_widget_date_solar, solarBitmap);
+		updateViews.setTextViewText(R.id.v5_widget_date_solar, solarBitmap);
+		
 		if (WeatherControl.isLanguageZhCn() || WeatherControl.isLanguageZhTw()) {
 			if (lunarBitmap == null || isDateUpdate) {
-				WeatherControl.recyleBitmap(lunarBitmap);
-				lunarBitmap = WeatherControl.createTextBitmap(context,
-						context.getString(R.string.lunar) + lunarString,
-						v5_widget_lunar_text_size, transy, true);
+//				WeatherControl.recyleBitmap(lunarBitmap);
+//				lunarBitmap = WeatherControl.createTextBitmap(context,
+//						context.getString(R.string.lunar) + lunarString,
+//						v5_widget_lunar_text_size, transy, true);
+				
+				lunarBitmap=null;
+				lunarBitmap=context.getString(R.string.lunar) + lunarString;
 			}
-			updateViews.setImageViewBitmap(R.id.v5_widget_date_lunar,
+			updateViews.setTextViewText(R.id.v5_widget_date_lunar,
 					lunarBitmap);
 		}
 		if (weekBitmap == null || isDateUpdate) {
-			WeatherControl.recyleBitmap(weekBitmap);
-			weekBitmap = WeatherControl.createTextBitmap(context,
-					weekdayString, v5_widget_lunar_text_size, transy, true);
+//			WeatherControl.recyleBitmap(weekBitmap);
+//			weekBitmap = WeatherControl.createTextBitmap(context,
+//					weekdayString, v5_widget_lunar_text_size, transy, true);
+			weekBitmap=null;
+			weekBitmap=weekdayString;
 		}
-		updateViews.setImageViewBitmap(R.id.v5_widget_week, weekBitmap);
+		updateViews.setTextViewText(R.id.v5_widget_week, weekBitmap);
 	}
 
 }

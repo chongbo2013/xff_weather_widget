@@ -53,11 +53,11 @@ public class WidgetTimeService extends Service{
 	}
 	
 	public synchronized void updateWidget() {
-		if(FERRIS_UPDATE_WIDGET!=null){
-			FERRIS_UPDATE_WIDGET=null;
+		if(FERRIS_UPDATE_WIDGET==null){
+			FERRIS_UPDATE_WIDGET=new Intent(WeatherControl.FERRIS_UPDATE_WIDGET);
 		}
-		FERRIS_UPDATE_WIDGET=new Intent(WeatherControl.FERRIS_UPDATE_WIDGET);
+		
 		sendBroadcast(FERRIS_UPDATE_WIDGET);
-		System.gc();
+		
 	}
 }

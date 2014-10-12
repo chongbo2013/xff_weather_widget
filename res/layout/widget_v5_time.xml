@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" 
     android:paddingTop="5dip"
+
     >
 	<LinearLayout
 	    android:id="@+id/time_container" 
@@ -19,37 +20,50 @@
 	        android:layout_height="wrap_content"
 	        android:orientation="horizontal"
 	        >
-			    <ImageView 
+			    <TextView 
 			        android:id="@+id/v5_widget_time_hour1"
 			        android:layout_width="wrap_content"
 			        android:layout_height="wrap_content"
 			        android:scaleType="center"
+			        android:text="1"
+			        android:textColor="@android:color/white"
+			          android:textSize="80sp"
 			        />
-			     <ImageView 
+			     <TextView 
 			        android:id="@+id/v5_widget_time_hour2"
 			        android:layout_width="wrap_content"
 			        android:layout_height="wrap_content"
 			        android:scaleType="center"
+			        android:text="0"
+			        android:textColor="@android:color/white"
+			        android:textSize="80sp"
 			        />
-			     <ImageView 
+			     <TextView 
 			        android:id="@+id/v5_widget_time_divider"
 			        android:layout_width="wrap_content"
 			        android:layout_height="wrap_content"
 			        android:scaleType="center"
-			        android:layout_marginTop="@dimen/v5_widget_divider_margin_top"
-			        android:src="@drawable/v5_widget_time_divider"
+	 				android:text=":"
+	 				android:textColor="@android:color/white"
+			        android:textSize="80sp"
 			        />
-			     <ImageView 
+			     <TextView 
 			        android:id="@+id/v5_widget_time_minute1"
 			        android:layout_width="wrap_content"
 			        android:layout_height="wrap_content"
 			        android:scaleType="center"
+			        android:text="4"
+			        android:textColor="@android:color/white"
+			          android:textSize="80sp"
 			        />
-			     <ImageView 
+			     <TextView 
 			        android:id="@+id/v5_widget_time_minute2"
 			        android:layout_width="wrap_content"
 			        android:layout_height="wrap_content"
 			        android:scaleType="center"
+			        android:text="8"
+			        android:textColor="@android:color/white"
+			          android:textSize="80sp"
 			        />
 	    </LinearLayout>
 	    <LinearLayout
@@ -57,19 +71,26 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:orientation="horizontal"
-	        android:layout_marginTop="15dp"
+
 	        android:layout_marginLeft="3dp"
 	        >
-		    <ImageView 
+		    <TextView 
 		        android:id="@+id/v5_widget_date_solar"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
+		        android:text="10:12"
+		        android:textColor="@android:color/white"
+			    android:textSize="30sp"
 		        />
-		    <ImageView 
+		    <TextView 
 		        android:id="@+id/v5_widget_date_lunar"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:layout_marginLeft="5dp"
+		        android:text="农历九月十九"
+		        android:textColor="@android:color/white"
+
+			          android:textSize="30sp"
 		        />
 	    </LinearLayout>
 	    
@@ -82,10 +103,13 @@
 	        android:layout_marginLeft="3dp"
 	        android:gravity="left"
 	        >
-	     <ImageView 
+	     <TextView 
 	        android:id="@+id/v5_widget_week"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
+	        android:text="星期日"
+	        android:textColor="@android:color/white"
+			android:textSize="30sp"
 	        />
 	     </LinearLayout>
 	</LinearLayout>
